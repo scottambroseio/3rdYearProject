@@ -1,13 +1,7 @@
-class Point:
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
+import sys
+sys.path.insert(0, '../Shared')
 
-	def __str__(self):
-		return "X:{:.2f} Y:{:.2f}".format(self.x, self.y)
-
-	def copy(self):
-		return Point(self.x, self.y)
+from point import Point
 
 def interpolate(pointOne, pointTwo, steps, startEndInclusive):
 	# The distances between each point's coordinates in cartasian space
