@@ -10,24 +10,32 @@ class Point:
 		return Point(self.x, self.y)
 
 def interpolate(pointOne, pointTwo, steps):
+	# The distances between each point's coordinates in cartasian space
 	xDistance = abs(pointOne.x - pointTwo.x)
 	yDistance = abs(pointOne.y - pointTwo.y)
-	intervals = steps +1
+	intervals = steps + 1
 
 	xDistancePerStep = xDistance / intervals
 	yDistancePerStep = yDistance / intervals
 
 	interpolatedPoint = pointOne.copy()
 
-	print(pointOne)
+	yield pointOne
 
-	for x in range(0, steps):
-		interpolatedPoint.x += xDistancePerStep
-		interpolatedPoint.y += yDistancePerStep
-		print(interpolatedPoint)
+	for index in range(0, steps):
+		if pointOne.x < pointTwo.x:
+			interpolatedPoint.x += xDistancePerStep
+		elif pointOne.x > pointTwo.x:
+			interpolatedPoint.x -= xDistancePerStep
 
-	print(pointTwo)
+		if pointOne.y < pointTwo.y:
+			interpolatedPoint.y += yDistancePerStep
+		elif pointOne.y > pointTwo.y:
+			interpolatedPoint.y -= yDistancePerStep	
 
-pointOne = Point(0,0) 
-pointTwo = Point(3,4)
-interpolate(pointOne, pointTwo, 2);
+		yield interpolatedPoint
+
+	yield pointTwo
+
+for point in interpolate(Point(2,-2), Point(10, -10), 7):
+	print(point)
