@@ -12,3 +12,9 @@ class Point:
 
 	def copy(self):
 		return Point(self.x, self.y, self.z, self.rx, self.ry, self.rz)
+
+	def __getitem__(self, key):
+		return getattr(self, key)
+
+	def __setitem__(self, key, value):
+		setattr(self, key, value)
