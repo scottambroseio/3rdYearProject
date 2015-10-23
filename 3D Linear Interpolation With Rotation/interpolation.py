@@ -8,13 +8,17 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive):
 	xDistance = abs(pointOne.x - pointTwo.x)
 	yDistance = abs(pointOne.y - pointTwo.y)
 	zDistance = abs(pointOne.z - pointTwo.z)
-	rDistance = abs(pointOne.r - pointTwo.r)
+	rxDistance = abs(pointOne.rx - pointTwo.rx)
+	ryDistance = abs(pointOne.ry - pointTwo.ry)
+	rzDistance = abs(pointOne.rz - pointTwo.rz)
 	intervals = steps + 1
 
 	xDistancePerStep = xDistance / intervals
 	yDistancePerStep = yDistance / intervals
 	zDistancePerStep = zDistance / intervals
-	rDistancePerStep = rDistance / intervals
+	rxDistancePerStep = rxDistance / intervals
+	ryDistancePerStep = ryDistance / intervals
+	rzDistancePerStep = rzDistance / intervals
 
 	interpolatedPoint = pointOne.copy()
 
@@ -37,15 +41,25 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive):
 		elif pointOne.z > pointTwo.z:
 			interpolatedPoint.z -= zDistancePerStep	
 
-		if pointOne.r < pointTwo.r:
-			interpolatedPoint.r += rDistancePerStep
-		elif pointOne.r > pointTwo.r:
-			interpolatedPoint.r -= rDistancePerStep	
+		if pointOne.rx < pointTwo.rx:
+			interpolatedPoint.rx += rxDistancePerStep
+		elif pointOne.rx > pointTwo.rx:
+			interpolatedPoint.rx -= rxDistancePerStep	
+
+		if pointOne.ry < pointTwo.ry:
+			interpolatedPoint.ry += ryDistancePerStep
+		elif pointOne.ry > pointTwo.ry:
+			interpolatedPoint.ry -= ryDistancePerStep	
+
+		if pointOne.rz < pointTwo.rz:
+			interpolatedPoint.rz += rzDistancePerStep
+		elif pointOne.rz > pointTwo.rz:
+			interpolatedPoint.rz -= rzDistancePerStep	
 
 		yield interpolatedPoint
 
 	if startEndInclusive:
 		yield pointTwo
 
-for point in interpolate(Point(0, 0, 0, 0), Point(6, 6, 6, -180), 5, True):
+for point in interpolate(Point(0, 0, 0, 0, 0, 0), Point(6, 6, 6, 180, -180, 180), 5, True):
 	print(point)
