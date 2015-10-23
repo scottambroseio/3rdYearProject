@@ -15,12 +15,12 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive, weights):
 		print("Invalid weights provided", file=stderr)
 		return
 
-	xDistance = abs(pointOne.x - pointTwo.x)
-	yDistance = abs(pointOne.y - pointTwo.y)
+	xDistance, yDistance, zDistance= getDistances(pointOne, pointTwo) 
 	intervals = steps + 1
 
 	xDistancePerStep = xDistance / intervals
 	yDistancePerStep = yDistance / intervals
+	zDistancePerStep = zDistance / intervals
 
 	interpolatedPoint = pointOne.copy()
 
@@ -38,13 +38,21 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive, weights):
 		elif pointOne.y > pointTwo.y:
 			interpolatedPoint.y -= yDistancePerStep	* weights[index]
 
+		if pointOne.z < pointTwo.z:
+			interpolatedPoint.z += zDistancePerStep * weights[index]
+		elif pointOne.z > pointTwo.z:
+			interpolatedPoint.z -= zDistancePerStep	* weights[index]
+
 		yield interpolatedPoint
 
 	if startEndInclusive:
 		yield pointTwo
 
+def getDistances(pointOne, pointTwo):
+	return abs(pointOne.x - pointTwo.x), abs(pointOne.y - pointTwo.y), abs(pointOne.z - pointTwo.z)
+
 def validateWeights(weights):
 	return mean(weights) == 1
 
-for point in interpolate(Point(1,1), Point(6, 6), 4, True, [3, 0.5, 0.5, 0.5, 0.5]):
+for point in interpolate(Point(1, 1, 1), Point(6, 6, 6), 4, True, [3, 0.5, 0.5, 0.5, 0.5]):
 	print(point)
