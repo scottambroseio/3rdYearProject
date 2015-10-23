@@ -39,7 +39,7 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive):
 
 		if pointOne.r < pointTwo.r:
 			interpolatedPoint.r += rDistancePerStep
-		elif pointOne.z > pointTwo.z:
+		elif pointOne.r > pointTwo.r:
 			interpolatedPoint.r -= rDistancePerStep	
 
 		yield interpolatedPoint
@@ -47,5 +47,5 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive):
 	if startEndInclusive:
 		yield pointTwo
 
-for point in interpolate(Point(0, 0, 0, 0), Point(6, 6, 6, 180), 5, True):
+for point in interpolate(Point(0, 0, 0, 0), Point(6, 6, 6, -180), 5, True):
 	print(point)
