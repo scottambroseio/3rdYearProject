@@ -15,8 +15,13 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive, weights):
 		print("Invalid weights provided", file=stderr)
 		return
 
-	xDistance, yDistance, zDistance= getDistances(pointOne, pointTwo) 
 	intervals = steps + 1
+
+	if len(weights) != intervals:
+		print("Incorrect number of weights relative to the number of intervals", file=stderr)
+		return
+
+	xDistance, yDistance, zDistance = getDistances(pointOne, pointTwo) 
 
 	xDistancePerStep = xDistance / intervals
 	yDistancePerStep = yDistance / intervals
