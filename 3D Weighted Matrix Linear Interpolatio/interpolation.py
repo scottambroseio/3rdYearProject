@@ -53,7 +53,7 @@ def getDistances(pointOne, pointTwo):
 	return abs(pointOne.x - pointTwo.x), abs(pointOne.y - pointTwo.y), abs(pointOne.z - pointTwo.z)
 
 def validateWeights(weightMatrix):
-	return mean([mean(weights) for weights in weightMatrix]) == 1
+	return all(i == 1 for i in [mean(weights) for weights in weightMatrix])
 
 weightMatrix = [
 	[3, 0.5, 0.5, 0.5, 0.5],
