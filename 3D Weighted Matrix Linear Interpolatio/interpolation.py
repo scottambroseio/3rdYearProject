@@ -11,6 +11,10 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive, weights):
 		print("The weights provided are not a sequence", file=stderr)
 		return
 
+	if validateWeights(weights) == False:
+		print("Invalid weights provided", file=stderr)
+		return
+
 	intervals = steps + 1
 
 	xDistance, yDistance, zDistance = getDistances(pointOne, pointTwo) 
@@ -48,16 +52,14 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive, weights):
 def getDistances(pointOne, pointTwo):
 	return abs(pointOne.x - pointTwo.x), abs(pointOne.y - pointTwo.y), abs(pointOne.z - pointTwo.z)
 
-def validateWeights(weights):
-	return True#mean(weights) == 1
+def validateWeights(weightMatrix):
+	return mean([mean(weights) for weights in weightMatrix]) == 1
 
 weightMatrix = [
 	[3, 0.5, 0.5, 0.5, 0.5],
 	[1, 2, 1, 0.5, 0.5],
 	[0.25, 0.25, 4, 0.25, 0.25]
 ]
-
-print(len(weightMatrix))
 
 for point in interpolate(Point(1, 1, 1), Point(6, 6, 6), 4, True, weightMatrix):
 	print(point)
