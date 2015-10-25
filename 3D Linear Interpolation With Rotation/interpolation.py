@@ -15,17 +15,19 @@ def interpolate(pointOne, pointTwo, steps, startEndInclusive):
 	if startEndInclusive:
 		yield pointOne
 
+	# for each step
 	for _ in range(0, steps):
-		for key, i in zip(keys, range(0, 6)):
+		# for each key in point
+		for key, index in zip(keys, range(0, len(keys))):
 			if pointOne[key] < pointTwo[key]:
-				interpolatedPoint[key] += distances[i]
+				interpolatedPoint[key] += distances[index]
 			elif pointOne[key] > pointTwo[key]:
-				interpolatedPoint[key] -= distances[i]	
+				interpolatedPoint[key] -= distances[index]	
 
 		yield interpolatedPoint
 
 	if startEndInclusive:
 		yield pointTwo
 
-for point in interpolate(Point(0, 0, 0, 0, 0, 0), Point(6, 6, 6, 180, -180, 180), 5, True):
+for point in interpolate(Point(0, 0, 0, 0, 0, 0), Point(0, 6, 6, 180, -180, 180), 5, True):
 	print(point)
