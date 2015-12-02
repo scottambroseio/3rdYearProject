@@ -7,11 +7,11 @@ parser = PDBParser()
 structure = parser.get_structure('initial', '../PDBFiles/1NEW_1PED_fitted_one_domain.pdb')
 result = Structure('result')
 
-#ranges = list(range(3, 111)) + list(range(261, 313)) + list(range(328, 334)) + list(range(389, 403))
+ranges = list(range(3, 111)) + list(range(261, 313)) + list(range(328, 334)) + list(range(389, 403))
 
 #3- 110A, 261- 312A, 328- 333A
-#def interpolate(initial, final, indexes, steps, startEndInclusive):
-def interpolate(initial, final, steps, startEndInclusive):
+def interpolate(initial, final, indexes, steps, startEndInclusive):
+#def interpolate(initial, final, steps, startEndInclusive):
 	if startEndInclusive:
 		yield initial	
 
@@ -19,15 +19,17 @@ def interpolate(initial, final, steps, startEndInclusive):
 
 	for index in range(1, steps+1):
 		newModel.id = index
-		#iteration = -1
+		iteration = -1
 
 		for chain, chain2, chain3 in zip(initial, final, newModel):
 			for residue, residue2, residue3 in zip(chain, chain2, chain3):
-				for atom, atom2, atom3 in zip(residue, residue2, residue3):
-					#iteration = iteration + 1
+				iteration = iteration + 1
 
-					#if (iteration not in ranges):
-						#continue
+				if (iteration not in ranges):
+					continue
+
+				for atom, atom2, atom3 in zip(residue, residue2, residue3):
+
 
 					# The distances between each point's coordinates in cartasian space
 					xDistance = abs(atom.coord[0] - atom2.coord[0])
@@ -61,8 +63,8 @@ def interpolate(initial, final, steps, startEndInclusive):
 
 		yield final
 
-for model in interpolate(structure[0], structure[1], 10, True):
-#for model in interpolate(structure[0], structure[1], ranges, 10, True):
+#for model in interpolate(structure[0], structure[1], 10, True):
+for model in interpolate(structure[0], structure[1], ranges, 10, True):
 	result.add(deepcopy(model))
 
 io = PDBIO()
